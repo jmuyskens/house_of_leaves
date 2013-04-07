@@ -1,0 +1,27 @@
+var xhReq = new XMLHttpRequest();
+xhReq.onreadystatechange = function onSumResponse() {
+  if (xhReq.readyState == 4) {
+    var serverResponse = xhReq.responseText;
+    var body = document.getElementsByTagName("body")[0];
+    var div = document.createElement('div');
+    div.innerHTML = serverResponse;
+    body.appendChild(div);
+  }
+}
+
+xhReq.send(null);
+chrome.extension.sendRequest({}, function(response) {});
+var readyStateCheckInterval = setInterval(function() {
+  if (document.readyState === "complete") {
+    countWords();
+    clearInterval(readyStateCheckInterval);
+  }
+}, 10);
+
+function house() {
+    var content = document.getElementsByTagName('*');
+    var re = /house/gi;
+    for (i in content) {
+	content[i].replace(re, "<span style=\"color:blue\">$&</span>");
+    }
+}
