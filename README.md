@@ -1,9 +1,9 @@
 house_of_leaves
 ===============
 
-This is a browser extension for Chrome, however the javascript is most likely reusable as a greasemonkey script.
+This is a browser extension for Chrome, however the javascript is reusable as a greasemonkey script.
 
-I've implented coloring of the words "house" and "minotaur." <del>Strikethroughs are also colored red</del>, but in the book, only the text is red while the strikethough line is black. Implementing this is far more complicated than I have time for at the moment. It would probably involve floating a div over the word in question. Have fun.
+I've implented coloring of the words "house" and "minotaur." <del>Strikethroughs are also colored lime green</del>, but in the book, they were red with seemingly no regard for colorblind usability.  Have fun.
 
 Installation
 ============
