@@ -1,7 +1,9 @@
 // adapted from code by www.chirp.com.au
+
 var house = function() 
 {
     var targetNode = document;
+    var nv, regs;
     
     var houseRegex = new RegExp("\\b(house)\\b", "i");
     var minotaurRegex = new RegExp("\\b(minotaur)\\b","i")
@@ -10,14 +12,10 @@ var house = function()
 
     var walk = function(node) 
     {
-        console.log(node);
-        if (!node)
+        if (!node || blue(node) || red(node) || strike(node))
             return;
-        blue(node);
-	red(node);
         node = node.firstChild;
         while (node) {
-            
             walk(node);
             node = node.nextSibling;
         }
@@ -29,7 +27,7 @@ var house = function()
 
 	if (node.parentNode && node.parentNode.nodeName == "EM") return;
 	
-        if (node.nodeType == 3) 
+        if (node.nodeType == Node.TEXT_NODE) 
         {
             if ((nv = node.nodeValue) && (regs = houseRegex.exec(nv))) 
             {
@@ -41,6 +39,7 @@ var house = function()
                 var after = node.splitText(regs.index);
                 after.nodeValue = after.nodeValue.substring(regs[0].length);
                 node.parentNode.insertBefore(match, after);
+                return true;
             }
         }
     };
@@ -49,7 +48,7 @@ var house = function()
 
 	if (node.parentNode && node.parentNode.nodeName == "EM") return;
 	
-        if (node.nodeType == 3) 
+        if (node.nodeType == Node.TEXT_NODE) 
         {
             if ((nv = node.nodeValue) && (regs = minotaurRegex.exec(nv))) 
             {
@@ -61,7 +60,23 @@ var house = function()
                 var after = node.splitText(regs.index);
                 after.nodeValue = after.nodeValue.substring(regs[0].length);
                 node.parentNode.insertBefore(match, after);
+                return true;
             }
+        }
+    };
+    var strike = function(node)
+    {
+        if (node.nodeName === "STRIKE" || node.nodeName === "DEL" || node.style && node.style.textDecoration === "line-through" ) {
+            var old_color = window.getComputedStyle(node).color;
+            var strike_container = document.createElement('del');
+            node.parentNode.insertBefore(strike_container, node);
+            strike_container.style.color = "LimeGreen";
+            strike_container.appendChild(node);
+
+            node.style.color = old_color;
+            node.style.color = 'black';
+            node.style.textDecoration = 'initial';
+            return true;
         }
     };
     walk(targetNode);
